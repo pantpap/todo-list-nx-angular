@@ -1,0 +1,53 @@
+{
+  "name": "my-todo-list-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/my-todo-list-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/my-todo-list-api",
+        "main": "apps/my-todo-list-api/src/main.ts",
+        "tsConfig": "apps/my-todo-list-api/tsconfig.app.json",
+        "assets": ["apps/my-todo-list-api/src/assets"],
+        "webpackConfig": "apps/my-todo-list-api/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "my-todo-list-api:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "my-todo-list-api:build:development"
+        },
+        "production": {
+          "buildTarget": "my-todo-list-api:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/my-todo-list-api/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
